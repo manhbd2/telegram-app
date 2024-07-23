@@ -1,4 +1,4 @@
-import MovieHome from "@/components/MovieHome";
+import MovieHome from '@/components/MovieHome';
 
 export default function Home() {
   return (

@@ -1,6 +1,8 @@
-import React from "react";
-import { Telegram } from "@twa-dev/types";
-import { ITelegram } from "@/types/global";
+/* eslint-disable consistent-return */
+import type { Telegram } from '@twa-dev/types';
+import React from 'react';
+
+import type { ITelegram } from '@/types/global';
 
 declare global {
   interface Window {
@@ -12,22 +14,22 @@ const useTelegram = (): ITelegram => {
   const [webApp, setWebApp] = React.useState<ITelegram>({ webApp: null });
 
   React.useEffect(() => {
-    let timer: NodeJS.Timeout;
     if (window.Telegram?.WebApp) {
       setWebApp({ webApp: window.Telegram?.WebApp });
       return;
     }
-    timer = setInterval(() => {
+    const timer: NodeJS.Timeout = setInterval(() => {
       if (window.Telegram?.WebApp) {
         clearInterval(timer);
         window.Telegram.WebApp.ready();
         setWebApp({ webApp: window.Telegram?.WebApp });
-        return;
       }
     }, 10);
 
     return () => {
-      if (timer) clearInterval(timer);
+      if (timer) {
+        clearInterval(timer);
+      }
     };
   }, []);
 
