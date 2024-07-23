@@ -2,7 +2,7 @@ import React from "react";
 import { Telegram, WebApp } from "@twa-dev/types";
 import { ITelegram } from "@/types/global";
 
-export const TelegramContext = React.createContext<ITelegram>({ webApp: null});
+export const TelegramContext = React.createContext<ITelegram>({ webApp: null });
 
 declare global {
   interface Window {
@@ -18,11 +18,22 @@ export const TelegramProvider = ({
   const [webApp, setWebApp] = React.useState<WebApp | null>(null);
 
   React.useEffect(() => {
-    if (!window.Telegram?.WebApp) {
-      return;
-    }
-    window.Telegram.WebApp.ready();
-    setWebApp(window.Telegram.WebApp);
+    let timer: NodeJS.Timeout;
+
+    timer = setInterval(() => {
+      if (window.Telegram?.WebApp) {
+        console.log('here ... 1');
+        clearInterval(timer);
+        window.Telegram.WebApp.ready();
+        setWebApp(window.Telegram.WebApp);
+        return;
+      }
+      console.log('here ... 2');
+    }, 10);
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
   }, []);
 
   const value: ITelegram | null = React.useMemo(() => {
