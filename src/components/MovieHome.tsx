@@ -1,25 +1,19 @@
 "use client";
-import { Telegram, WebApp } from "@twa-dev/types";
-import React from "react";
 
-declare global {
-  interface Window {
-    Telegram: Telegram;
-  }
-}
+import React from "react";
+import { TelegramProvider, useTelegram } from "@/contexts/telegram.provider";
 
 function MovieHome() {
-  const [webApp, setWebApp] = React.useState<WebApp | null>(null);
-
-  React.useEffect(() => {
-    if (!window.Telegram?.WebApp) {
-      return;
-    }
-    window.Telegram.WebApp.ready();
-    setWebApp(window.Telegram.WebApp);
-  }, []);
-
-  return <div>Hello world!</div>;
+  const { webApp } = useTelegram();
+  
+  return (
+    <TelegramProvider>
+      <div>Hello world!</div>
+      <button type="submit" onClick={() => webApp?.showAlert("Hello world!")}>
+        Show Alert!
+      </button>
+    </TelegramProvider>
+  );
 }
 
 export default MovieHome;
