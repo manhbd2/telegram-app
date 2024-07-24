@@ -26,6 +26,7 @@ const requestTypesNeedUpdateMediaType = [
   RequestType.GENRE,
   RequestType.KOREAN,
 ];
+
 const baseUrl = 'https://api.themoviedb.org/3';
 
 class MovieService extends BaseService {
@@ -45,7 +46,7 @@ class MovieService extends BaseService {
 
   static async getKeywords(
     id: number,
-    type: 'tv' | 'movie',
+    type: MediaType.TV | MediaType.MOVIE,
   ): Promise<AxiosResponse<KeyWordResponse>> {
     return this.axios(baseUrl).get<KeyWordResponse>(`/${type}/${id}/keywords`);
   }
@@ -59,6 +60,59 @@ class MovieService extends BaseService {
       baseUrl,
     ).get<ShowWithGenreAndVideo>(`/${type}/${id}`, { params });
     return Promise.resolve(response.data);
+  });
+
+  static getShows = cache(async (requests: ShowRequest[]) => {
+    const shows: CategorizedShows[] = [];
+
+    const executeRequest = (req: TmdbRequest) => {
+      return this.axios(baseUrl).get<TmdbPagingResponse>(this.urlBuilder(req));
+    };
+
+    const responses = await Promise.allSettled(
+      requests.map((m) => executeRequest(m.req)),
+    );
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < requests.length; i++) {
+      const res = responses[i];
+      if (this.isRejected(res)) {
+        shows.push({
+          title: requests[i].title,
+          shows: [],
+          visible: requests[i].visible,
+        });
+      } else if (this.isFulfilled(res)) {
+        const { requestType } = requests[i].req;
+        if (requestTypesNeedUpdateMediaType.indexOf(requestType) > -1) {
+          res.value.data.results.map((f: Show) => {
+            // eslint-disable-next-line no-param-reassign
+            f.media_type = requests[i].req.mediaType;
+            return f;
+          });
+        }
+        shows.push({
+          title: requests[i].title,
+          shows: res.value.data.results,
+          visible: requests[i].visible,
+        });
+      } else {
+        throw new Error('unexpected response');
+      }
+    }
+    return shows;
+  });
+
+  static searchMovies = cache(async (query: string, page?: number) => {
+    const { data } = await this.axios(baseUrl).get<TmdbPagingResponse>(
+      `/search/multi?query=${encodeURIComponent(query)}&language=en-US&page=${
+        page ?? 1
+      }`,
+    );
+    data.results.sort((a, b) => {
+      return b.popularity - a.popularity;
+    });
+    return data;
   });
 
   static urlBuilder(req: TmdbRequest) {
@@ -99,60 +153,6 @@ class MovieService extends BaseService {
         );
     }
   }
-
-  static executeRequest(req: {
-    requestType: RequestType;
-    mediaType: MediaType;
-    page?: number;
-  }) {
-    return this.axios(baseUrl).get<TmdbPagingResponse>(this.urlBuilder(req));
-  }
-
-  static getShows = cache(async (requests: ShowRequest[]) => {
-    const shows: CategorizedShows[] = [];
-    const promises = requests.map((m) => this.executeRequest(m.req));
-    const responses = await Promise.allSettled(promises);
-    for (let i = 0; i < requests.length; i++) {
-      const res = responses[i];
-      if (this.isRejected(res)) {
-        console.warn(`Failed to fetch shows ${requests[i].title}`, res.reason);
-        shows.push({
-          title: requests[i].title,
-          shows: [],
-          visible: requests[i].visible,
-        });
-      } else if (this.isFulfilled(res)) {
-        if (
-          requestTypesNeedUpdateMediaType.indexOf(requests[i].req.requestType) >
-          -1
-        ) {
-          res.value.data.results.forEach(
-            (f) => (f.media_type = requests[i].req.mediaType),
-          );
-        }
-        shows.push({
-          title: requests[i].title,
-          shows: res.value.data.results,
-          visible: requests[i].visible,
-        });
-      } else {
-        throw new Error('unexpected response');
-      }
-    }
-    return shows;
-  });
-
-  static searchMovies = cache(async (query: string, page?: number) => {
-    const { data } = await this.axios(baseUrl).get<TmdbPagingResponse>(
-      `/search/multi?query=${encodeURIComponent(query)}&language=en-US&page=${
-        page ?? 1
-      }`,
-    );
-    data.results.sort((a, b) => {
-      return b.popularity - a.popularity;
-    });
-    return data;
-  });
 }
 
 export default MovieService;
