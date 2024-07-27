@@ -1,4 +1,3 @@
-import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import { cn } from '@/libs/utils';
@@ -15,9 +14,6 @@ type IShowsCarouselProps = {
 
 function ShowsCarousel(props: IShowsCarouselProps) {
   const { title, shows } = props;
-
-  const pathname = usePathname();
-
   const showsRef = React.useRef<HTMLDivElement>(null);
   const [isScrollable, setIsScrollable] = React.useState(false);
 
@@ -74,7 +70,7 @@ function ShowsCarousel(props: IShowsCarouselProps) {
               className="m-0 grid auto-cols-[calc(100%/3)] grid-flow-col overflow-x-auto overflow-y-hidden px-[4%] py-0 duration-500 ease-in-out sm:auto-cols-[25%] md:touch-pan-y lg:auto-cols-[20%] xl:auto-cols-[calc(100%/6)] 2xl:px-[60px]"
             >
               {shows.map((show) => (
-                <ShowCard key={show.id} show={show} pathname={pathname} />
+                <ShowCard key={show.id} show={show} />
               ))}
             </div>
             <Button

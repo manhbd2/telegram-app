@@ -16,6 +16,11 @@ function MovieHome(props: IMovieHomeProps) {
   const { categorizedShows } = props;
   const { webApp } = useTelegram();
 
+  React.useEffect(() => {
+    if (!webApp?.initDataUnsafe?.user) return;
+    webApp?.showAlert(`Hello ${webApp.initDataUnsafe.user?.username}`);
+  }, [webApp]);
+
   const firstShow: Show = categorizedShows?.[0]?.shows?.[0];
 
   return (
@@ -33,9 +38,6 @@ function MovieHome(props: IMovieHomeProps) {
           />
         );
       })}
-      <button type="submit" onClick={() => webApp?.showAlert('Hello world!')}>
-        Show Alert!
-      </button>
     </div>
   );
 }

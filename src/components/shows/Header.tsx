@@ -27,7 +27,7 @@ function Header(props: IHeaderProps) {
               priority
             />
             <div className="absolute inset-0 z-10">
-              <div className="absolute bottom-12 w-full">
+              <div className="absolute bottom-20 w-full">
                 <h1 className="text-center text-2xl font-bold">
                   {show?.title ?? show?.name}
                 </h1>
@@ -38,7 +38,7 @@ function Header(props: IHeaderProps) {
                       : '-'}
                     % Match
                   </span>
-                  <span>{show?.release_date ?? '-'}</span>
+                  <span className="ml-2">{show?.release_date ?? '-'}</span>
                 </div>
                 <div className="mt-4 flex items-center justify-center gap-x-2 space-x-2">
                   <Link prefetch={false} href={getWatchPath(show)}>
@@ -61,10 +61,10 @@ function Header(props: IHeaderProps) {
                 </div>
               </div>
             </div>{' '}
-            <div className="absolute inset-0 right-[26.09%] z-[8] bg-gradient-to-r from-secondary to-85%" />
+            <div className="absolute inset-0 right-[12.09%] z-[8] bg-gradient-to-r from-secondary to-85%" />
             <div className="absolute inset-x-0 -bottom-px z-[8] h-[14.7vw] bg-gradient-to-b from-background/0 from-30% via-background/30 via-50% to-background to-80%" />
           </div>
-          <div className="relative inset-0 -z-50 mb-5 pb-[60%] sm:pb-[40%]" />
+          <div className="relative inset-0 -z-50 mb-5 pb-[80%] sm:pb-[40%]" />
         </>
       )}
     </section>
