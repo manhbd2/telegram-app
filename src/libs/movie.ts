@@ -1,6 +1,7 @@
 import { Genre } from '@/enums/genre';
 import type { ShowRequest } from '@/enums/request-type';
 import { RequestType } from '@/enums/request-type';
+import type { Show } from '@/types/movie';
 import { MediaType } from '@/types/movie';
 
 export const getRequestShow = (): ShowRequest[] => {
@@ -70,4 +71,17 @@ export const getRequestShow = (): ShowRequest[] => {
       visible: true,
     },
   ];
+};
+
+export const getImageUrl = (show: Show): string => {
+  if (!show) return '';
+  const { backdrop_path: backdropPath, poster_path: posterPath } = show;
+  const path: string = backdropPath ?? posterPath ?? '';
+  return `https://image.tmdb.org/t/p/original${path}`;
+};
+
+export const getWatchPath = (show: Show): string => {
+  return `/watch/${
+    show.media_type === MediaType.MOVIE ? 'movie' : 'tv'
+  }/${show.id}`;
 };

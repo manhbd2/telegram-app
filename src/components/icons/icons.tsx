@@ -20,10 +20,10 @@ type IconProps = LucideProps;
 export const Icons = {
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
-  info: Info,
+  Info,
   search: Search,
   logo: PlayIcon,
-  play: PlayIcon,
+  Play: PlayIcon,
   pause: Pause,
   volume: Volume2,
   volumeMute: VolumeX,
