@@ -74,7 +74,7 @@ export const getRequestShow = (): ShowRequest[] => {
 };
 
 export const getImageUrl = (show: Show): string => {
-  if (!show) return '';
+  if (!show) return '/images/grey-thumbnail.jpg';
   const { backdrop_path: backdropPath, poster_path: posterPath } = show;
   const path: string = backdropPath ?? posterPath ?? '';
   return `https://image.tmdb.org/t/p/original${path}`;

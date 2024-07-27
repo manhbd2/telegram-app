@@ -18,8 +18,8 @@ import {
 type IconProps = LucideProps;
 
 export const Icons = {
-  chevronLeft: ChevronLeft,
-  chevronRight: ChevronRight,
+  ChevronLeft,
+  ChevronRight,
   Info,
   search: Search,
   logo: PlayIcon,
