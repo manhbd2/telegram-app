@@ -26,24 +26,21 @@ function Header(props: IHeaderProps) {
               fill
               priority
             />
-            <div className="absolute inset-0">
-              <div className="absolute bottom-[35%] left-[4%] top-0 z-10 flex w-[36%] flex-col justify-end space-y-2">
-                <h1 className="text-[3vw] font-bold">
+            <div className="absolute inset-0 z-10">
+              <div className="absolute bottom-12 w-full">
+                <h1 className="text-center text-2xl font-bold">
                   {show?.title ?? show?.name}
                 </h1>
-                <div className="flex space-x-2 text-[2vw] font-semibold md:text-[1.2vw]">
-                  <p className="text-green-600">
+                <div className="w-full text-center">
+                  <span className="text-green-600">
                     {show?.vote_average
                       ? Math.round(show.vote_average * 10)
                       : '-'}
                     % Match
-                  </p>
-                  <p>{show?.release_date ?? '-'}</p>
+                  </span>
+                  <span>{show?.release_date ?? '-'}</span>
                 </div>
-                <p className="hidden text-[1.2vw] sm:line-clamp-3">
-                  {show?.overview ?? '-'}
-                </p>
-                <div className="mt-[1.5vw] flex items-center space-x-2">
+                <div className="mt-4 flex items-center justify-center gap-x-2 space-x-2">
                   <Link prefetch={false} href={getWatchPath(show)}>
                     <Button
                       aria-label="Play video"
@@ -59,7 +56,7 @@ function Header(props: IHeaderProps) {
                     className="h-auto shrink-0 gap-2 rounded-xl"
                   >
                     <Icons.Info aria-hidden="true" />
-                    More Info
+                    Info
                   </Button>
                 </div>
               </div>
