@@ -22,6 +22,7 @@ const useTelegram = (): ITelegram => {
       if (window.Telegram?.WebApp) {
         clearInterval(timer);
         window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.isExpanded = true;
         setWebApp({ webApp: window.Telegram?.WebApp });
       }
     }, 10);
