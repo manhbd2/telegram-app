@@ -24,6 +24,7 @@ function MovieHome(props: IMovieHomeProps) {
     const onTouchMove = (e: TouchEvent) => {
       const scroll = window.scrollY;
       const te = e.changedTouches[0].clientY;
+      WebApp?.showAlert(`scroll ${scroll}, ${ts}, ${te}`);
       if (scroll <= 0 && ts !== undefined && ts < te) {
         e.preventDefault();
       }
