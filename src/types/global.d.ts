@@ -1,5 +1,9 @@
 import type { WebApp } from '@twa-dev/types';
 
 interface ITelegram {
-  webApp: WebApp | null;
+  WebApp: ExtendedWebApp | null;
+}
+
+interface ExtendedWebApp extends WebApp {
+  disableVerticalSwipes: () => void;
 }

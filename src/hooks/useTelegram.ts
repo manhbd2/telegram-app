@@ -1,29 +1,29 @@
 /* eslint-disable consistent-return */
-import type { Telegram } from '@twa-dev/types';
 import React from 'react';
 
 import type { ITelegram } from '@/types/global';
 
 declare global {
   interface Window {
-    Telegram: Telegram;
+    Telegram: ITelegram;
   }
 }
 
 const useTelegram = (): ITelegram => {
-  const [webApp, setWebApp] = React.useState<ITelegram>({ webApp: null });
+  const [webApp, setWebApp] = React.useState<ITelegram>({ WebApp: null });
 
   React.useEffect(() => {
     if (window.Telegram?.WebApp) {
-      setWebApp({ webApp: window.Telegram?.WebApp });
+      setWebApp({ WebApp: window.Telegram?.WebApp });
       return;
     }
     const timer: NodeJS.Timeout = setInterval(() => {
       if (window.Telegram?.WebApp) {
         clearInterval(timer);
         window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.isExpanded = true;
-        setWebApp({ webApp: window.Telegram?.WebApp });
+        window.Telegram.WebApp.expand();
+        window.Telegram.WebApp?.disableVerticalSwipes();
+        setWebApp({ WebApp: window.Telegram?.WebApp });
       }
     }, 10);
 

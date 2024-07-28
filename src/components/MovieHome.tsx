@@ -14,12 +14,12 @@ type IMovieHomeProps = {
 
 function MovieHome(props: IMovieHomeProps) {
   const { categorizedShows } = props;
-  const { webApp } = useTelegram();
+  const { WebApp } = useTelegram();
 
   React.useEffect(() => {
-    if (!webApp?.initDataUnsafe?.user) return;
-    webApp?.showAlert(`Hello ${webApp.initDataUnsafe.user?.username}`);
-  }, [webApp]);
+    if (!WebApp?.initDataUnsafe?.user) return;
+    WebApp?.showAlert(`Hello ${WebApp.initDataUnsafe.user?.username}`);
+  }, [WebApp]);
 
   const firstShow: Show = categorizedShows?.[0]?.shows?.[0];
 
