@@ -3,6 +3,7 @@
 import React from 'react';
 
 import useTelegram from '@/hooks/useTelegram';
+import type { ExtendedWebApp } from '@/types/global';
 import type { CategorizedShows, Show } from '@/types/movie';
 
 import Header from './shows/Header';
@@ -16,6 +17,8 @@ function MovieHome(props: IMovieHomeProps) {
   const { categorizedShows } = props;
   const { WebApp } = useTelegram();
 
+  const webAppRef = React.useRef<ExtendedWebApp | null>();
+
   React.useEffect(() => {
     let ts: number | undefined;
     const onTouchStart = (e: TouchEvent) => {
@@ -24,8 +27,10 @@ function MovieHome(props: IMovieHomeProps) {
     const onTouchMove = (e: TouchEvent) => {
       const scroll = window.scrollY;
       const te = e.changedTouches[0].clientY;
-      WebApp?.showAlert(`scroll ${scroll}, ${ts}, ${te}`);
-      if (scroll <= 0 && ts !== undefined && ts < te) {
+      webAppRef.current?.showAlert(`scroll ${scroll}, ${ts}, ${te}`);
+      if (scroll <= 0 && ts! < te) {
+        e.preventDefault();
+      } else {
         e.preventDefault();
       }
     };
@@ -45,6 +50,7 @@ function MovieHome(props: IMovieHomeProps) {
 
   React.useEffect(() => {
     if (!WebApp?.initDataUnsafe?.user) return;
+    webAppRef.current = WebApp;
     WebApp?.showAlert(`Hello ${WebApp.initDataUnsafe.user?.username}`);
   }, [WebApp]);
 
