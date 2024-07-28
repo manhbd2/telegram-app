@@ -65,7 +65,7 @@ function MovieDetail(props: IMovieDetailProps) {
           <MyImage
             src={getImageUrl(show)}
             alt={show?.title ?? 'poster'}
-            className="-z-40 h-[190px] w-[135px] object-cover"
+            className="-z-40 h-[210px] w-[155px] object-cover"
             width={135}
             height={190}
             priority
