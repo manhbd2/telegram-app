@@ -19,7 +19,7 @@ function MovieHome(props: IMovieHomeProps) {
   React.useEffect(() => {
     if (!WebApp?.initDataUnsafe?.user) return;
     WebApp?.showAlert(
-      `Hello ${WebApp.initDataUnsafe.user?.username}, version: ${WebApp.version}`,
+      `Hello ${WebApp.initDataUnsafe.user?.username}, version: ${WebApp.version}, check ${WebApp.isVersionAtLeast('7.7')}`,
     );
   }, [WebApp]);
 
