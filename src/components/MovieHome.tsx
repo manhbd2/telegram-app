@@ -18,7 +18,9 @@ function MovieHome(props: IMovieHomeProps) {
 
   React.useEffect(() => {
     if (!WebApp?.initDataUnsafe?.user) return;
-    WebApp?.showAlert(`Hello ${WebApp.initDataUnsafe.user?.username}`);
+    WebApp?.showAlert(
+      `Hello ${WebApp.initDataUnsafe.user?.username}, version: ${WebApp.version}`,
+    );
   }, [WebApp]);
 
   const firstShow: Show = categorizedShows?.[0]?.shows?.[0];
