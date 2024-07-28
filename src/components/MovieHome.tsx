@@ -17,10 +17,34 @@ function MovieHome(props: IMovieHomeProps) {
   const { WebApp } = useTelegram();
 
   React.useEffect(() => {
+    let ts: number | undefined;
+    const onTouchStart = (e: TouchEvent) => {
+      ts = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const scroll = window.scrollY;
+      const te = e.changedTouches[0].clientY;
+      if (scroll <= 0 && ts !== undefined && ts < te) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('touchstart', onTouchStart, {
+      passive: false,
+    });
+    window.addEventListener('touchmove', onTouchMove, {
+      passive: false,
+    });
+
+    return () => {
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+    };
+  }, []);
+
+  React.useEffect(() => {
     if (!WebApp?.initDataUnsafe?.user) return;
-    WebApp?.showAlert(
-      `Hello ${WebApp.initDataUnsafe.user?.username}, version: ${WebApp.version}, check ${WebApp.isVersionAtLeast('7.7')}`,
-    );
+    WebApp?.showAlert(`Hello ${WebApp.initDataUnsafe.user?.username}`);
   }, [WebApp]);
 
   const firstShow: Show = categorizedShows?.[0]?.shows?.[0];
