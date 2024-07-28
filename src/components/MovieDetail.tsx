@@ -27,8 +27,8 @@ const options: Record<string, object> = {
     mute: 1,
     loop: 1,
     autoplay: 0,
-    controls: 0,
-    showinfo: 0,
+    controls: 1,
+    showinfo: 1,
     disablekb: 1,
     enablejsapi: 1,
     playsinline: 1,
@@ -57,7 +57,10 @@ function MovieDetail(props: IMovieDetailProps) {
           priority
         />
       </div>
-      <div className="w-full bg-[#00000014] p-4 text-sm backdrop-blur-3xl">
+      <div
+        style={{ WebkitBackdropFilter: 'blur(64px)' }}
+        className="w-full bg-[#00000014] p-4 text-sm backdrop-blur-3xl"
+      >
         <div className="flex items-center justify-center pt-16">
           <MyImage
             src={getImageUrl(show)}
