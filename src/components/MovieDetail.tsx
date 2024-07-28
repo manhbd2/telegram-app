@@ -40,8 +40,6 @@ const options: Record<string, object> = {
 function MovieDetail(props: IMovieDetailProps) {
   const { show } = props;
 
-  console.log(show);
-
   return (
     <div className="relative">
       <div className="absolute right-6 top-8 z-10">
@@ -49,7 +47,7 @@ function MovieDetail(props: IMovieDetailProps) {
           <Icons.Close className="fill-current" aria-hidden="true" />
         </Link>
       </div>
-      <div className="absolute inset-0 z-0 h-[100vw] w-full sm:h-[56.25vw]">
+      <div className="absolute inset-0 z-0 h-[50vh] w-full">
         <MyImage
           src={getImageUrl(show)}
           alt={show?.title ?? 'poster'}
@@ -113,7 +111,7 @@ function MovieDetail(props: IMovieDetailProps) {
                 videoId={getTrailer(show)}
                 style={{ width: '100%', height: '100%' }}
                 className="relative mt-4 aspect-video w-full"
-                iframeClassName="relative pointer-events-none w-[100%] h-[100%] opacity-1"
+                iframeClassName="relative w-[100%] h-[100%] opacity-1"
               />
               <div className="mt-2 text-sm">{`${show.original_title} (Trailer)`}</div>
             </>
