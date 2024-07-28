@@ -11,7 +11,7 @@ type Props = {
 
 export default async function TvShowPage({ params }: Props) {
   const id: number = getIdFromSlug(params.slug);
-  const movie: ShowWithGenreAndVideo = await MovieService.findMovieByIdAndType(
+  const tvShow: ShowWithGenreAndVideo = await MovieService.findMovieByIdAndType(
     id,
     MediaType.TV,
   );
@@ -21,7 +21,7 @@ export default async function TvShowPage({ params }: Props) {
   return (
     <main className="min-h-screen">
       <h1 className="hidden">{h1}</h1>
-      <MovieDetail show={movie} />
+      <MovieDetail show={tvShow} />
     </main>
   );
 }
