@@ -1,7 +1,13 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-param-reassign */
+
+'use client';
+
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { getImageUrl } from '@/libs/movie';
+import { getDetailPath, getImageUrl } from '@/libs/movie';
 import type { Show } from '@/types/movie';
 
 type IShowCardProps = {
@@ -11,14 +17,20 @@ type IShowCardProps = {
 function ShowCard(props: IShowCardProps) {
   const { show } = props;
 
+  const router = useRouter();
+
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>,
   ) => {
     event.currentTarget.src = '/images/grey-thumbnail.jpg';
   };
 
+  const handleClick = () => {
+    router.push(getDetailPath(show));
+  };
+
   return (
-    <picture className="relative aspect-[2/3]">
+    <picture className="relative aspect-[2/3]" onClick={handleClick}>
       <img
         src={getImageUrl(show)}
         alt={show.title ?? show.name ?? 'poster'}

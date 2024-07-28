@@ -1,7 +1,8 @@
+/* eslint-disable no-control-regex */
 import { Genre } from '@/enums/genre';
 import type { ShowRequest } from '@/enums/request-type';
 import { RequestType } from '@/enums/request-type';
-import type { Show } from '@/types/movie';
+import type { Show, ShowWithGenreAndVideo, VideoResult } from '@/types/movie';
 import { MediaType } from '@/types/movie';
 
 export const getRequestShow = (): ShowRequest[] => {
@@ -84,4 +85,48 @@ export const getWatchPath = (show: Show): string => {
   return `/watch/${
     show.media_type === MediaType.MOVIE ? 'movie' : 'tv'
   }/${show.id}`;
+};
+
+export function getNameFromShow(show: Show | null): string {
+  return show?.name ?? show?.title ?? '';
+}
+
+export function getSlug(id: number, name: string): string {
+  // build slug from name and id
+  // eslint-disable-next-line no-useless-escape
+  const regex = /([^\x00-\x7F]|[&$\+,:;=\?@#\s<>\[\]\{\}|\\\^%])+/gm;
+  return `${name.toLowerCase().replace(regex, '-')}-${id}`;
+}
+
+export const getDetailPath = (show: Show): string => {
+  const slug: string = getSlug(show.id, getNameFromShow(show));
+  return `/${show.media_type === MediaType.MOVIE ? 'movie' : 'tv'}/${slug}`;
+};
+
+export const getYear = (input: string | number): number => {
+  const date = new Date(input);
+  return date.getFullYear();
+};
+
+export const getYearFromShow = (show: ShowWithGenreAndVideo): number | null => {
+  if (show?.release_date) {
+    return getYear(show.release_date);
+  }
+  if (show?.first_air_date) {
+    return getYear(show?.first_air_date);
+  }
+  return null;
+};
+
+export const getTrailer = (
+  show: ShowWithGenreAndVideo,
+): string | null | undefined => {
+  if (!show.videos?.results?.length) {
+    return null;
+  }
+  const videoData: VideoResult[] = show.videos?.results;
+  const result: VideoResult | undefined = videoData.find(
+    (item: VideoResult) => item.type === 'Trailer',
+  );
+  return result?.key;
 };

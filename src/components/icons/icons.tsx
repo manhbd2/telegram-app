@@ -244,7 +244,7 @@ export const Icons = {
   ),
   avatar: UserCircle,
   placeholder: ImageIcon,
-  close: X,
+  Close: X,
   instagram: Instagram,
   youtube: Youtube,
 };

@@ -17,24 +17,6 @@ function MovieHome(props: IMovieHomeProps) {
   const { WebApp } = useTelegram();
 
   React.useEffect(() => {
-    let lastTouchY: number;
-    const onTouchMove = (e: TouchEvent) => {
-      const currentTouchY = e.changedTouches[0].clientY;
-      if (currentTouchY < lastTouchY) {
-        e.preventDefault();
-      }
-    };
-
-    window.addEventListener('touchmove', onTouchMove, {
-      passive: false,
-    });
-
-    return () => {
-      window.removeEventListener('touchmove', onTouchMove);
-    };
-  }, []);
-
-  React.useEffect(() => {
     if (!WebApp?.initDataUnsafe?.user) return;
     WebApp?.showAlert(`Hello ${WebApp.initDataUnsafe.user?.username}`);
   }, [WebApp]);
