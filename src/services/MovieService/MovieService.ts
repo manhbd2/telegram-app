@@ -13,6 +13,7 @@ import type {
   CreditsResponse,
   KeyWordResponse,
   MediaType,
+  SeasonDetail,
   Show,
   ShowWithGenreAndVideo,
 } from '@/types/movie';
@@ -34,6 +35,13 @@ class MovieService extends BaseService {
     return this.axios(baseUrl).get<CreditsResponse>(
       `/${type}/${id}/credits?language=en-US`,
     );
+  });
+
+  static getSeason = cache(async (id: number, seasonNumber: number) => {
+    const response: AxiosResponse<SeasonDetail> = await this.axios(
+      baseUrl,
+    ).get<SeasonDetail>(`/tv/${id}/season/${seasonNumber}`);
+    return response.data;
   });
 
   static findMovie = cache(async (id: number) => {

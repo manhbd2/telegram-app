@@ -1,6 +1,7 @@
 import {
   ChevronLeft,
   ChevronRight,
+  CirclePlay,
   ImageIcon,
   Info,
   Instagram,
@@ -18,6 +19,7 @@ import {
 type IconProps = LucideProps;
 
 export const Icons = {
+  CirclePlay,
   ChevronLeft,
   ChevronRight,
   Info,
