@@ -13,6 +13,7 @@ type IHeaderProps = {
 };
 function Header(props: IHeaderProps) {
   const { show } = props;
+
   return (
     <section aria-label="Hero" className="w-full">
       {show && (
@@ -41,7 +42,10 @@ function Header(props: IHeaderProps) {
                   <span className="ml-2">{show?.release_date ?? '-'}</span>
                 </div>
                 <div className="mt-4 flex items-center justify-center gap-x-2 space-x-2">
-                  <Link prefetch={false} href={getWatchPath(show)}>
+                  <Link
+                    prefetch={false}
+                    href={getWatchPath(show.id, show.media_type)}
+                  >
                     <Button
                       aria-label="Play video"
                       className="h-auto shrink-0 gap-2 rounded-xl"

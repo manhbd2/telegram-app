@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import useTelegram from '@/hooks/useTelegram';
 import type { CategorizedShows, Show } from '@/types/movie';
 
 import Header from './shows/Header';

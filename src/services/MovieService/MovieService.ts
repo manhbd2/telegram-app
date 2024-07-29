@@ -37,11 +37,17 @@ class MovieService extends BaseService {
   });
 
   static findMovie = cache(async (id: number) => {
-    return this.axios(baseUrl).get<Show>(`/movie/${id}`);
+    const response: AxiosResponse<Show> = await this.axios(baseUrl).get<Show>(
+      `/movie/${id}`,
+    );
+    return response.data;
   });
 
   static findTvSeries = cache(async (id: number) => {
-    return this.axios(baseUrl).get<Show>(`/tv/${id}`);
+    const response: AxiosResponse<Show> = await this.axios(baseUrl).get<Show>(
+      `/tv/${id}`,
+    );
+    return response.data;
   });
 
   static async getKeywords(

@@ -44,6 +44,14 @@ export type Cast = {
   job?: string;
 };
 
+export type Season = {
+  id: number;
+  name: string;
+  overview: string;
+  season_number: number;
+  episode_count: number;
+};
+
 export type Show = {
   adult: boolean;
   backdrop_path: string | null;
@@ -74,6 +82,10 @@ export type Show = {
   vote_average: number;
   vote_count: number;
   original_name?: string;
+  seasons: Season[];
+  genres: Genre[];
+  production_companies: ProductionCompany[];
+  production_countries: ProductionCountry[];
 };
 
 export type KeyWord = {
@@ -94,6 +106,16 @@ export type MovieMetadata = {
 };
 
 export type Genre = {
+  id: number;
+  name: string | null;
+};
+
+export type ProductionCompany = {
+  id: number;
+  name: string | null;
+};
+
+export type ProductionCountry = {
   id: number;
   name: string | null;
 };

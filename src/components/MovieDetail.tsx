@@ -10,13 +10,14 @@ import {
   getWatchPath,
   getYearFromShow,
 } from '@/libs/movie';
-import type { ShowWithGenreAndVideo } from '@/types/movie';
+import type { MediaType, ShowWithGenreAndVideo } from '@/types/movie';
 
 import { Icons } from './icons/icons';
 import MyImage from './shows/MyImage';
 import { Button } from './ui/Button';
 
 type IMovieDetailProps = {
+  type: MediaType;
   show: ShowWithGenreAndVideo;
 };
 
@@ -38,7 +39,7 @@ const options: Record<string, object> = {
 };
 
 function MovieDetail(props: IMovieDetailProps) {
-  const { show } = props;
+  const { show, type } = props;
 
   return (
     <div className="relative">
@@ -83,7 +84,7 @@ function MovieDetail(props: IMovieDetailProps) {
           )}
         </div>
         <div className="mt-4">
-          <Link prefetch={false} href={getWatchPath(show)}>
+          <Link prefetch={false} href={getWatchPath(show.id, type)}>
             <Button
               aria-label="Play video"
               className="h-auto w-full shrink-0 gap-2 rounded-[2px] bg-[#EE1520] text-white"
@@ -102,9 +103,10 @@ function MovieDetail(props: IMovieDetailProps) {
         </div>
       </div>
       <div className="mt-1 bg-[#1A1A1A] px-4">
-        <div className="w-[140px] border-2 border-t border-[#EE1520]" />
-        <div className="py-4">
+        <div style={{ borderTop: '2px solid #ee1520' }} className="w-fit pt-4">
           <h6>TRAILERS & MORE</h6>
+        </div>
+        <div className="pb-4">
           {getTrailer(show) && (
             <>
               <YouTube

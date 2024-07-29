@@ -81,10 +81,8 @@ export const getImageUrl = (show: Show): string => {
   return `https://image.tmdb.org/t/p/original${path}`;
 };
 
-export const getWatchPath = (show: Show): string => {
-  return `/watch/${
-    show.media_type === MediaType.MOVIE ? 'movie' : 'tv'
-  }/${show.id}`;
+export const getWatchPath = (id: number, type: MediaType): string => {
+  return `/watch/${type}/${id}`;
 };
 
 export function getNameFromShow(show: Show | null): string {
@@ -108,7 +106,9 @@ export const getYear = (input: string | number): number => {
   return date.getFullYear();
 };
 
-export const getYearFromShow = (show: ShowWithGenreAndVideo): number | null => {
+export const getYearFromShow = (
+  show: ShowWithGenreAndVideo | Show,
+): number | null => {
   if (show?.release_date) {
     return getYear(show.release_date);
   }

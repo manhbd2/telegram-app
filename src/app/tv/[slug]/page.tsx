@@ -21,7 +21,7 @@ export default async function TvShowPage({ params }: Props) {
   return (
     <main className="min-h-screen">
       <h1 className="hidden">{h1}</h1>
-      <MovieDetail show={tvShow} />
+      <MovieDetail show={tvShow} type={MediaType.TV} />
     </main>
   );
 }
