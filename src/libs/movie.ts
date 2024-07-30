@@ -3,6 +3,7 @@ import { Genre } from '@/enums/genre';
 import type { ShowRequest } from '@/enums/request-type';
 import { RequestType } from '@/enums/request-type';
 import type {
+  CategorizedShows,
   Episode,
   Show,
   ShowWithGenreAndVideo,
@@ -161,3 +162,10 @@ export const getTrailer = (
   );
   return result?.key;
 };
+
+export function getRandomShow(allShows: CategorizedShows[]): Show {
+  const randomNumber = allShows?.length
+    ? Math.floor(Math.random() * (allShows[0].shows?.length || 0))
+    : 0;
+  return allShows?.[0]?.shows?.[randomNumber];
+}

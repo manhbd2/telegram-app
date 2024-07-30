@@ -195,7 +195,7 @@ function TvShowWatch(props: ITvShowWatchProps) {
                         src={getPreviewUrl(item)}
                       />
                       <Icons.CirclePlay
-                        size={32}
+                        size={48}
                         strokeWidth={1.5}
                         className="absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 text-[#ffffff]"
                       />

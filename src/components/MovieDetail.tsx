@@ -118,7 +118,7 @@ function MovieDetail(props: IMovieDetailProps) {
                 className="relative mt-4 aspect-video w-full"
                 iframeClassName="relative w-[100%] h-[100%] opacity-1"
               />
-              <div className="mt-2 text-sm">{`${show.original_title} (Trailer)`}</div>
+              <div className="mt-2 text-sm">{`${show.original_name || show.original_title || ''} (Trailer)`}</div>
             </>
           )}
         </div>

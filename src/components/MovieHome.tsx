@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { getRandomShow } from '@/libs/movie';
 import type { CategorizedShows, Show } from '@/types/movie';
 
 import Header from './shows/Header';
@@ -14,11 +15,11 @@ type IMovieHomeProps = {
 function MovieHome(props: IMovieHomeProps) {
   const { categorizedShows } = props;
 
-  const firstShow: Show = categorizedShows?.[0]?.shows?.[0];
+  const randomShow: Show = getRandomShow(categorizedShows);
 
   return (
     <div>
-      <Header show={firstShow} />
+      <Header show={randomShow} />
       {categorizedShows.map((categorizedShow: CategorizedShows) => {
         if (!categorizedShow.visible) {
           return null; // Skip hidden categories

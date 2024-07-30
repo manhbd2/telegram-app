@@ -44,7 +44,7 @@ function Header(props: IHeaderProps) {
                 <div className="mt-4 flex items-center justify-center gap-x-2 space-x-2">
                   <Link
                     prefetch={false}
-                    href={getWatchPath(show.id, show.media_type)}
+                    href={getWatchPath(show?.id, show?.media_type)}
                   >
                     <Button
                       aria-label="Play video"
