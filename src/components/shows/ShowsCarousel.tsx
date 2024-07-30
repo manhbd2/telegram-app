@@ -50,7 +50,7 @@ function ShowsCarousel(props: IShowsCarouselProps) {
     <section aria-label="Carousel of shows" className="relative my-[3vw] p-0">
       {shows.length !== 0 && (
         <div className="space-y-1 sm:space-y-2.5">
-          <h2 className="m-0 px-[4%] text-lg font-semibold text-foreground/80 transition-colors hover:text-foreground sm:text-xl 2xl:px-[60px]">
+          <h2 className="m-0 px-[2%] text-lg font-semibold text-foreground/80 transition-colors hover:text-foreground sm:text-xl 2xl:px-[60px]">
             {title ?? '-'}
           </h2>
           <div className="relative w-full items-center justify-center overflow-hidden">
@@ -67,7 +67,7 @@ function ShowsCarousel(props: IShowsCarouselProps) {
             </Button>
             <div
               ref={showsRef}
-              className="m-0 grid auto-cols-[calc(100%/3)] grid-flow-col overflow-x-auto overflow-y-hidden px-[4%] py-0 duration-500 ease-in-out sm:auto-cols-[25%] md:touch-pan-y lg:auto-cols-[20%] xl:auto-cols-[calc(100%/6)] 2xl:px-[60px]"
+              className="m-0 grid auto-cols-[calc(100%/3)] grid-flow-col overflow-x-auto overflow-y-hidden px-[2%] py-0 duration-500 ease-in-out sm:auto-cols-[25%] md:touch-pan-y lg:auto-cols-[20%] xl:auto-cols-[calc(100%/6)] 2xl:px-[60px]"
             >
               {shows.map((show) => (
                 <ShowCard key={show.id} show={show} />

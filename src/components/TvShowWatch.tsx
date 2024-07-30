@@ -127,12 +127,10 @@ function TvShowWatch(props: ITvShowWatchProps) {
             </span>
           )}
         </div>
-        <div>
-          <h6 className="text-center">
-            {`S${showMetadata.season?.season_number}:E${showMetadata.episode.episode_number} ${showMetadata.episode.name}`}
-          </h6>
-          <p className="mt-1">{showMetadata.episode.overview || '---'}</p>
-        </div>
+        <h6 className="mt-1">
+          {`S${showMetadata.season?.season_number}:E${showMetadata.episode.episode_number} ${showMetadata.episode.name}`}
+        </h6>
+        <p className="mt-1">{showMetadata.episode.overview || '---'}</p>
       </div>
       <div className="p-4 pt-0">
         <div className="flex items-center gap-x-6">
