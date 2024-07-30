@@ -82,7 +82,16 @@ export const getRequestShow = (): ShowRequest[] => {
 export const getImageUrl = (show: Show): string => {
   if (!show) return '/images/grey-thumbnail.jpg';
   const { backdrop_path: backdropPath, poster_path: posterPath } = show;
-  const path: string = backdropPath ?? posterPath ?? '';
+  const path: string = posterPath ?? backdropPath ?? '';
+  return `https://image.tmdb.org/t/p/original${path}`;
+};
+
+export const getPreviewImageUrl = (
+  posterPath: string | null,
+  backdropPath: string | null,
+): string => {
+  if (!backdropPath && posterPath) return '/images/grey-thumbnail.jpg';
+  const path: string = posterPath ?? backdropPath ?? '';
   return `https://image.tmdb.org/t/p/original${path}`;
 };
 

@@ -10,6 +10,7 @@ import {
 } from '@/enums/request-type';
 import type {
   CategorizedShows,
+  Collection,
   CreditsResponse,
   KeyWordResponse,
   MediaType,
@@ -41,6 +42,13 @@ class MovieService extends BaseService {
     const response: AxiosResponse<SeasonDetail> = await this.axios(
       baseUrl,
     ).get<SeasonDetail>(`/tv/${id}/season/${seasonNumber}`);
+    return response.data;
+  });
+
+  static getCollection = cache(async (collectionId: number) => {
+    const response: AxiosResponse<Collection> = await this.axios(
+      baseUrl,
+    ).get<Collection>(`/collection/${collectionId}`);
     return response.data;
   });
 

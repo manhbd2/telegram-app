@@ -3,6 +3,7 @@ import React from 'react';
 import { getEmbedPlayerUrl } from '@/libs/movie';
 import { MediaType, type Show } from '@/types/movie';
 
+import ShowCollection from './shows/ShowCollection';
 import ShowDetail from './shows/ShowDetail';
 import EmbedPlayer from './ui/EmbedPlayer';
 
@@ -23,6 +24,14 @@ function MovieWatch(props: IMovieWatchProps) {
         <div style={{ borderTop: '2px solid #ee1520' }} className="w-fit pt-2">
           <h6>Collection</h6>
         </div>
+        {show.belongs_to_collection?.id ? (
+          <div className="mt-4">
+            <ShowCollection
+              show={show}
+              collectionId={show.belongs_to_collection.id}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );

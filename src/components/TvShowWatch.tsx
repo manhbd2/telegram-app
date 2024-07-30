@@ -21,6 +21,7 @@ import {
 
 import { Icons } from './icons/icons';
 import MyImage from './shows/MyImage';
+import ShowCollection from './shows/ShowCollection';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -152,7 +153,7 @@ function TvShowWatch(props: ITvShowWatchProps) {
             );
           })}
         </div>
-        {show.seasons?.length && (
+        {show.seasons?.length && currentTab === 1 && (
           <div className="relative mt-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -181,7 +182,7 @@ function TvShowWatch(props: ITvShowWatchProps) {
             </DropdownMenu>
           </div>
         )}
-        {showMetadata?.seasonDetail?.episodes?.length ? (
+        {showMetadata?.seasonDetail?.episodes?.length && currentTab === 1 ? (
           <div className="mt-4 text-sm">
             {showMetadata.seasonDetail.episodes.map((item: Episode) => {
               return (
@@ -210,6 +211,14 @@ function TvShowWatch(props: ITvShowWatchProps) {
                 </div>
               );
             })}
+          </div>
+        ) : null}
+        {show.belongs_to_collection?.id && currentTab === 2 ? (
+          <div className="mt-4">
+            <ShowCollection
+              show={show}
+              collectionId={show.belongs_to_collection.id}
+            />
           </div>
         ) : null}
       </div>
