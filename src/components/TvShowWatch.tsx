@@ -5,13 +5,22 @@
 
 import React from 'react';
 
-import { getPreviewUrl } from '@/libs/movie';
+import {
+  getEmbedPlayerUrl,
+  getPreviewUrl,
+  getYearFromShow,
+} from '@/libs/movie';
 import MovieService from '@/services/MovieService';
-import type { Episode, Season, SeasonDetail, Show } from '@/types/movie';
+import {
+  type Episode,
+  MediaType,
+  type Season,
+  type SeasonDetail,
+  type Show,
+} from '@/types/movie';
 
 import { Icons } from './icons/icons';
 import MyImage from './shows/MyImage';
-import ShowDetail from './shows/ShowDetail';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +33,13 @@ type ITab = {
   id: number;
   title: string;
 };
+
+type IShowMetadata = {
+  episode: Episode;
+  season: Season | null;
+  seasonDetail: SeasonDetail;
+};
+
 type ITvShowWatchProps = {
   show: Show;
   season: SeasonDetail;
@@ -41,14 +57,14 @@ const tabs: ITab[] = [
 ];
 
 function TvShowWatch(props: ITvShowWatchProps) {
-  const { show } = props;
+  const { show, season } = props;
 
-  const index: number = show?.seasons?.length ? show.seasons.length - 1 : 0;
-  const [currentTab, setCurrentTab] = React.useState<ITab>(tabs[0]);
-  const [season, setSeason] = React.useState<Season>(show.seasons?.[index]);
-  const [seasonDetail, setSeasonDetail] = React.useState<SeasonDetail>(
-    props.season,
-  );
+  const [currentTab, setCurrentTab] = React.useState<number>(tabs[0].id);
+  const [showMetadata, setShowMetadata] = React.useState<IShowMetadata>({
+    seasonDetail: props.season,
+    episode: season.episodes[0],
+    season: show?.seasons ? show.seasons[show.seasons.length - 1] : null,
+  });
 
   const handleLoadSeason = React.useCallback(
     async (id: number, seasonNumber: number) => {
@@ -56,36 +72,75 @@ function TvShowWatch(props: ITvShowWatchProps) {
         id,
         seasonNumber,
       );
-      setSeasonDetail(seasonDetailResponse);
+      setShowMetadata((prevState: IShowMetadata) => ({
+        ...prevState,
+        seasonDetail: seasonDetailResponse,
+      }));
     },
     [],
   );
 
   React.useEffect(() => {
-    if (season.id === props.season.id) {
+    if (showMetadata.season?.id === season.id || !showMetadata.season) {
       return;
     }
-    handleLoadSeason(show.id, season.season_number);
-  }, [show, season, seasonDetail, props.season, handleLoadSeason]);
+    handleLoadSeason(show.id, showMetadata.season.season_number);
+  }, [show, showMetadata.season, season, handleLoadSeason]);
 
   const handleClick = (_tab: ITab) => {
-    setCurrentTab(_tab);
+    setCurrentTab(_tab.id);
+  };
+
+  const handleChangeSeason = (_season: Season): void => {
+    setShowMetadata((prevState: IShowMetadata) => ({
+      ...prevState,
+      season: _season,
+    }));
+  };
+
+  const getEmbedUrl = () => {
+    const { id } = show;
+    const seasonNumber: number = showMetadata.season?.season_number || 1;
+    const episodeNumber: number = showMetadata.episode.episode_number || 1;
+    return getEmbedPlayerUrl(id, MediaType.TV, seasonNumber, episodeNumber);
   };
 
   return (
     <div>
       <div className="h-56 w-full">
-        <EmbedPlayer url={`https://vidsrc.cc/v2/embed/tv/${show.id}`} />
+        <EmbedPlayer url={getEmbedUrl()} />
       </div>
-      <ShowDetail show={show} />
+      <div className="p-4 text-sm">
+        <h1>{show.name ?? show.title ?? ''}</h1>
+        <div className="mt-1 flex items-center space-x-2 text-sm sm:text-base">
+          <p className="font-semibold text-green-400">
+            {Math.round((Number(show?.vote_average) / 10) * 100) ?? '-'}% Match
+          </p>
+          {getYearFromShow(show) ? <p>{getYearFromShow(show)}</p> : null}
+          {show?.number_of_seasons ? (
+            <p>{`${show.number_of_seasons} seasons`}</p>
+          ) : null}
+          {show?.original_language && (
+            <span className="grid h-4 w-7 place-items-center text-xs font-bold text-neutral-400 ring-1 ring-neutral-400">
+              {show.original_language.toUpperCase()}
+            </span>
+          )}
+        </div>
+        <div>
+          <h6 className="text-center">
+            {`S${showMetadata.season?.season_number}:E${showMetadata.episode.episode_number} ${showMetadata.episode.name}`}
+          </h6>
+          <p className="mt-1">{showMetadata.episode.overview || '---'}</p>
+        </div>
+      </div>
       <div className="p-4 pt-0">
         <div className="flex items-center gap-x-6">
-          {tabs.map((tab) => {
+          {tabs.map((tab: ITab) => {
             return (
               <div
                 key={tab.id}
                 style={
-                  tab.id === currentTab.id
+                  tab.id === currentTab
                     ? { borderTop: '2px solid #ee1520', color: '#ffffff' }
                     : { borderTop: '2px solid transparent' }
                 }
@@ -102,7 +157,9 @@ function TvShowWatch(props: ITvShowWatchProps) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center">
-                  <span className="text-[#90908f]">{season?.name}</span>
+                  <span className="text-[#90908f]">
+                    {showMetadata.season?.name || ''}
+                  </span>
                   <Icons.ChevronRight
                     size={23}
                     className="ml-1 rotate-90 text-[#90908f]"
@@ -114,7 +171,7 @@ function TvShowWatch(props: ITvShowWatchProps) {
                   return (
                     <DropdownMenuItem
                       key={item.id}
-                      onClick={() => setSeason(item)}
+                      onClick={() => handleChangeSeason(item)}
                     >
                       {item.name}
                     </DropdownMenuItem>
@@ -124,9 +181,9 @@ function TvShowWatch(props: ITvShowWatchProps) {
             </DropdownMenu>
           </div>
         )}
-        {seasonDetail?.episodes?.length ? (
+        {showMetadata?.seasonDetail?.episodes?.length ? (
           <div className="mt-4 text-sm">
-            {seasonDetail.episodes.map((item: Episode) => {
+            {showMetadata.seasonDetail.episodes.map((item: Episode) => {
               return (
                 <div key={item.id} className="mb-4">
                   <div className="flex items-center gap-x-2">

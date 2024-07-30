@@ -64,6 +64,33 @@ export type SeasonDetail = {
   vote_average: number;
 };
 
+export type CollectionPath = {
+  backdrop_path: string;
+  id: number;
+  title: string;
+  original_title: string;
+  overview: string;
+  poster_path: string;
+  media_type: string;
+  adult: boolean;
+  original_language: string;
+  genre_ids: number[];
+  popularity: number;
+  release_date: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};
+
+export type Collection = {
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  parts: CollectionPath[];
+};
+
 export type Episode = {
   air_date: string;
   episode_number: number;
@@ -109,10 +136,18 @@ export type Show = {
   vote_average: number;
   vote_count: number;
   original_name?: string;
+  belongs_to_collection: BelongsToCollection;
   seasons: Season[];
   genres: Genre[];
   production_companies: ProductionCompany[];
   production_countries: ProductionCountry[];
+};
+
+export type BelongsToCollection = {
+  id: number;
+  name: string;
+  poster_path: string;
+  backdrop_path: string;
 };
 
 export type KeyWord = {

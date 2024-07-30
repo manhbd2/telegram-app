@@ -2,7 +2,12 @@
 import { Genre } from '@/enums/genre';
 import type { ShowRequest } from '@/enums/request-type';
 import { RequestType } from '@/enums/request-type';
-import type { Episode, Show, ShowWithGenreAndVideo, VideoResult } from '@/types/movie';
+import type {
+  Episode,
+  Show,
+  ShowWithGenreAndVideo,
+  VideoResult,
+} from '@/types/movie';
 import { MediaType } from '@/types/movie';
 
 export const getRequestShow = (): ShowRequest[] => {
@@ -84,6 +89,18 @@ export const getImageUrl = (show: Show): string => {
 export const getPreviewUrl = (episode: Episode): string => {
   if (!episode?.still_path) return '/images/grey-thumbnail.jpg';
   return `https://image.tmdb.org/t/p/original${episode.still_path}`;
+};
+
+export const getEmbedPlayerUrl = (
+  id: number,
+  type: MediaType,
+  season?: number,
+  episode?: number,
+): string => {
+  if (type === MediaType.MOVIE) {
+    return `https://vidsrc.cc/v2/embed/movie/${id}`;
+  }
+  return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${episode}`;
 };
 
 export const getWatchPath = (id: number, type: MediaType): string => {

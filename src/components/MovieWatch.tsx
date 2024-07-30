@@ -1,6 +1,7 @@
 import React from 'react';
 
-import type { Show } from '@/types/movie';
+import { getEmbedPlayerUrl } from '@/libs/movie';
+import { MediaType, type Show } from '@/types/movie';
 
 import ShowDetail from './shows/ShowDetail';
 import EmbedPlayer from './ui/EmbedPlayer';
@@ -15,7 +16,7 @@ function MovieWatch(props: IMovieWatchProps) {
   return (
     <div>
       <div className="h-56 w-full">
-        <EmbedPlayer url={`https://vidsrc.cc/v2/embed/movie/${show.id}`} />
+        <EmbedPlayer url={getEmbedPlayerUrl(show.id, MediaType.MOVIE)} />
       </div>
       <ShowDetail show={show} />
       <div className="p-4 pt-0">
