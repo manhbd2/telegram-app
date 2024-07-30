@@ -2,7 +2,7 @@
 import { Genre } from '@/enums/genre';
 import type { ShowRequest } from '@/enums/request-type';
 import { RequestType } from '@/enums/request-type';
-import type { Show, ShowWithGenreAndVideo, VideoResult } from '@/types/movie';
+import type { Episode, Show, ShowWithGenreAndVideo, VideoResult } from '@/types/movie';
 import { MediaType } from '@/types/movie';
 
 export const getRequestShow = (): ShowRequest[] => {
@@ -79,6 +79,11 @@ export const getImageUrl = (show: Show): string => {
   const { backdrop_path: backdropPath, poster_path: posterPath } = show;
   const path: string = backdropPath ?? posterPath ?? '';
   return `https://image.tmdb.org/t/p/original${path}`;
+};
+
+export const getPreviewUrl = (episode: Episode): string => {
+  if (!episode?.still_path) return '/images/grey-thumbnail.jpg';
+  return `https://image.tmdb.org/t/p/original${episode.still_path}`;
 };
 
 export const getWatchPath = (id: number, type: MediaType): string => {

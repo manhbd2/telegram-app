@@ -5,9 +5,12 @@
 
 import React from 'react';
 
-import type { Season, Show } from '@/types/movie';
+import { getPreviewUrl } from '@/libs/movie';
+import MovieService from '@/services/MovieService';
+import type { Episode, Season, SeasonDetail, Show } from '@/types/movie';
 
 import { Icons } from './icons/icons';
+import MyImage from './shows/MyImage';
 import ShowDetail from './shows/ShowDetail';
 import {
   DropdownMenu,
@@ -23,6 +26,7 @@ type ITab = {
 };
 type ITvShowWatchProps = {
   show: Show;
+  season: SeasonDetail;
 };
 
 const tabs: ITab[] = [
@@ -39,8 +43,30 @@ const tabs: ITab[] = [
 function TvShowWatch(props: ITvShowWatchProps) {
   const { show } = props;
 
+  const index: number = show?.seasons?.length ? show.seasons.length - 1 : 0;
   const [currentTab, setCurrentTab] = React.useState<ITab>(tabs[0]);
-  const [season, setSeason] = React.useState<Season>(show.seasons?.[0]);
+  const [season, setSeason] = React.useState<Season>(show.seasons?.[index]);
+  const [seasonDetail, setSeasonDetail] = React.useState<SeasonDetail>(
+    props.season,
+  );
+
+  const handleLoadSeason = React.useCallback(
+    async (id: number, seasonNumber: number) => {
+      const seasonDetailResponse: SeasonDetail = await MovieService.getSeason(
+        id,
+        seasonNumber,
+      );
+      setSeasonDetail(seasonDetailResponse);
+    },
+    [],
+  );
+
+  React.useEffect(() => {
+    if (season.id === props.season.id) {
+      return;
+    }
+    handleLoadSeason(show.id, season.season_number);
+  }, [show, season, seasonDetail, props.season, handleLoadSeason]);
 
   const handleClick = (_tab: ITab) => {
     setCurrentTab(_tab);
@@ -98,6 +124,37 @@ function TvShowWatch(props: ITvShowWatchProps) {
             </DropdownMenu>
           </div>
         )}
+        {seasonDetail?.episodes?.length ? (
+          <div className="mt-4 text-sm">
+            {seasonDetail.episodes.map((item: Episode) => {
+              return (
+                <div key={item.id} className="mb-4">
+                  <div className="flex items-center gap-x-2">
+                    <div className="relative h-[75px] w-[120px] shrink-0">
+                      <MyImage
+                        alt="preview"
+                        width={120}
+                        height={75}
+                        className="h-[75px] w-[120px] shrink-0 rounded-sm"
+                        src={getPreviewUrl(item)}
+                      />
+                      <Icons.CirclePlay
+                        size={32}
+                        strokeWidth={1.5}
+                        className="absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 text-[#ffffff]"
+                      />
+                    </div>
+                    <div>
+                      <h6>{item.name}</h6>
+                      <p>{item.air_date}</p>
+                    </div>
+                  </div>
+                  <div className="mt-2">{item.overview || '---'}</div>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
     </div>
   );
