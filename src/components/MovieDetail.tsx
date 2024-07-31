@@ -95,8 +95,8 @@ function MovieDetail(props: IMovieDetailProps) {
           </Link>
         </div>
         <p className="mt-4">{show.overview || '---'}</p>
-        <div className="mt-3 flex items-center gap-2 text-[#90908f] sm:text-sm">
-          <span>Genres:</span>
+        <div className="mt-3 text-[#90908f] sm:text-sm">
+          <span>Genres: </span>
           {show.genres?.length
             ? show?.genres?.map((genre) => genre.name).join(', ')
             : '---'}

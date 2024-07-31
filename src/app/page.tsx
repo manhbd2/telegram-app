@@ -12,6 +12,7 @@ export default async function Home() {
   const categorizedShows: CategorizedShows[] =
     await MovieService.getShows(requests);
 
+  console.log('home');
   return (
     <main className="min-h-screen">
       <h1 className="hidden">{h1}</h1>

@@ -21,8 +21,6 @@ function ShowCollection(props: IShowCollectionProps) {
   const { show, collectionId } = props;
   const [collection, setCollection] = React.useState<Collection | null>();
 
-console.log(show);
-
   const router = useRouter();
 
   React.useEffect(() => {

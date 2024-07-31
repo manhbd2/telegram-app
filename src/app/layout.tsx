@@ -1,4 +1,5 @@
 import './globals.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -16,6 +17,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log('root layout');
   return (
     <html lang="en">
       <Script src="https://telegram.org/js/telegram-web-app.js" />
