@@ -80,6 +80,122 @@ export const getRequestShow = (): ShowRequest[] => {
   ];
 };
 
+export const getRequestMovie = (): ShowRequest[] => {
+  return [
+    {
+      title: 'Trending Now',
+      req: { requestType: RequestType.TRENDING, mediaType: MediaType.MOVIE },
+      visible: true,
+    },
+    {
+      title: 'Netflix Movies',
+      req: { requestType: RequestType.NETFLIX, mediaType: MediaType.MOVIE },
+      visible: true,
+    },
+    {
+      title: 'Popular',
+      req: { requestType: RequestType.POPULAR, mediaType: MediaType.MOVIE },
+      visible: true,
+    },
+    {
+      title: 'Comedy Movies',
+      req: {
+        requestType: RequestType.GENRE,
+        mediaType: MediaType.MOVIE,
+        genre: Genre.COMEDY,
+      },
+      visible: true,
+    },
+    {
+      title: 'Action Movies',
+      req: {
+        requestType: RequestType.GENRE,
+        mediaType: MediaType.MOVIE,
+        genre: Genre.ACTION,
+      },
+      visible: true,
+    },
+    {
+      title: 'Romance Movies',
+      req: {
+        requestType: RequestType.GENRE,
+        mediaType: MediaType.MOVIE,
+        genre: Genre.ROMANCE,
+      },
+      visible: true,
+    },
+    {
+      title: 'Scary Movies',
+      req: {
+        requestType: RequestType.GENRE,
+        mediaType: MediaType.MOVIE,
+        genre: Genre.THRILLER,
+      },
+      visible: true,
+    },
+  ];
+};
+
+export const getRequestTvShow = (): ShowRequest[] => {
+  return [
+    {
+      title: 'Trending Now',
+      req: { requestType: RequestType.TRENDING, mediaType: MediaType.TV },
+      visible: true,
+    },
+    {
+      title: 'Netflix TV Shows',
+      req: { requestType: RequestType.NETFLIX, mediaType: MediaType.TV },
+      visible: true,
+    },
+    {
+      title: 'Popular',
+      req: {
+        requestType: RequestType.TOP_RATED,
+        mediaType: MediaType.TV,
+        genre: Genre.FAMILY,
+      },
+      visible: true,
+    },
+    {
+      title: 'Comedy TV Shows',
+      req: {
+        requestType: RequestType.GENRE,
+        mediaType: MediaType.TV,
+        genre: Genre.COMEDY,
+      },
+      visible: true,
+    },
+    {
+      title: 'Action TV Shows',
+      req: {
+        requestType: RequestType.GENRE,
+        mediaType: MediaType.TV,
+        genre: Genre.ACTION_ADVENTURE,
+      },
+      visible: true,
+    },
+    {
+      title: 'Drama TV Shows',
+      req: {
+        requestType: RequestType.GENRE,
+        mediaType: MediaType.TV,
+        genre: Genre.DRAMA,
+      },
+      visible: true,
+    },
+    {
+      title: 'Scary TV Shows',
+      req: {
+        requestType: RequestType.GENRE,
+        mediaType: MediaType.TV,
+        genre: Genre.THRILLER,
+      },
+      visible: true,
+    },
+  ];
+};
+
 export const getImageUrl = (show: Show): string => {
   if (!show) return '/images/grey-thumbnail.jpg';
   const { backdrop_path: backdropPath, poster_path: posterPath } = show;

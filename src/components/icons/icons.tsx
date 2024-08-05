@@ -23,7 +23,7 @@ export const Icons = {
   ChevronLeft,
   ChevronRight,
   Info,
-  search: Search,
+  Search,
   logo: PlayIcon,
   Play: PlayIcon,
   pause: Pause,

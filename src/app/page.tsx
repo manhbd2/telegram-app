@@ -1,9 +1,9 @@
 import MovieHome from '@/components/MovieHome';
 import { siteConfig } from '@/configs/site';
 import type { ShowRequest } from '@/enums/request-type';
-import { getRequestShow } from '@/libs/movie';
+import { getRandomShow, getRequestShow } from '@/libs/movie';
 import MovieService from '@/services/MovieService';
-import type { CategorizedShows } from '@/types/movie';
+import type { CategorizedShows, Show } from '@/types/movie';
 
 export default async function Home() {
   const h1 = `${siteConfig.name} Home`;
@@ -12,11 +12,12 @@ export default async function Home() {
   const categorizedShows: CategorizedShows[] =
     await MovieService.getShows(requests);
 
-  console.log('home');
+  const randomShow: Show = getRandomShow(categorizedShows);
+
   return (
     <main className="min-h-screen">
       <h1 className="hidden">{h1}</h1>
-      <MovieHome categorizedShows={categorizedShows} />
+      <MovieHome categorizedShows={categorizedShows} randomShow={randomShow} />
     </main>
   );
 }

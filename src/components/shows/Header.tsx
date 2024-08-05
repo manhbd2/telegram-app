@@ -29,37 +29,28 @@ function Header(props: IHeaderProps) {
             />
             <div className="absolute inset-0 z-10">
               <div className="absolute bottom-20 w-full">
-                <h1 className="text-center text-2xl font-bold">
-                  {show?.title ?? show?.name}
-                </h1>
-                <div className="w-full text-center">
-                  <span className="text-green-600">
-                    {show?.vote_average
-                      ? Math.round(show.vote_average * 10)
-                      : '-'}
-                    % Match
-                  </span>
-                  <span className="ml-2">{show?.release_date ?? '-'}</span>
-                </div>
-                <div className="mt-4 flex items-center justify-center gap-x-2 space-x-2">
+                <div className="mt-4 flex items-center justify-center gap-x-2">
                   <Link
                     prefetch={false}
                     href={getWatchPath(show?.id, show?.media_type)}
                   >
                     <Button
                       aria-label="Play video"
-                      className="h-auto shrink-0 gap-2 rounded-xl"
+                      className="h-auto shrink-0 gap-2 rounded-sm px-9 py-2"
                     >
-                      <Icons.Play className="fill-current" aria-hidden="true" />
+                      <Icons.Play
+                        className="size-5 fill-current"
+                        aria-hidden="true"
+                      />
                       Play
                     </Button>
                   </Link>
                   <Button
                     aria-label="Open show's details modal"
                     variant="outline"
-                    className="h-auto shrink-0 gap-2 rounded-xl"
+                    className="h-auto shrink-0 gap-2 rounded-sm px-9 py-2"
                   >
-                    <Icons.Info aria-hidden="true" />
+                    <Icons.Info aria-hidden="true" className="size-5" />
                     Info
                   </Button>
                 </div>

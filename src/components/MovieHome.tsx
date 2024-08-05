@@ -2,23 +2,28 @@
 
 import React from 'react';
 
-import { getRandomShow } from '@/libs/movie';
+import useTelegram from '@/hooks/useTelegram';
 import type { CategorizedShows, Show } from '@/types/movie';
 
 import Header from './shows/Header';
 import ShowsCarousel from './shows/ShowsCarousel';
+import SiteHeader from './shows/SiteHeader';
 
 type IMovieHomeProps = {
+  randomShow: Show;
   categorizedShows: CategorizedShows[];
 };
 
 function MovieHome(props: IMovieHomeProps) {
-  const { categorizedShows } = props;
+  const { randomShow, categorizedShows } = props;
 
-  const randomShow: Show = getRandomShow(categorizedShows);
+  const { WebApp } = useTelegram();
+
+  const userName: string = WebApp?.initDataUnsafe.user?.username || ' User';
 
   return (
-    <div>
+    <div className="relative">
+      <SiteHeader userName={userName} />
       <Header show={randomShow} />
       {categorizedShows.map((categorizedShow: CategorizedShows) => {
         if (!categorizedShow.visible) {
