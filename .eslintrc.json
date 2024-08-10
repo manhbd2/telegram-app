@@ -50,6 +50,8 @@
         "react/jsx-props-no-spreading": "off", // _app.tsx uses spread operator and also, react-hook-form
         "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
         "@typescript-eslint/consistent-type-imports": "error", // Ensure `import type` is used when it's necessary
+        "jsx-a11y/click-events-have-key-events": "off", // Allow react click events to have key events
+        "jsx-a11y/no-static-element-interactions": "off", // Allow static element interactions
         "no-restricted-syntax": [
           "error",
           "ForInStatement",

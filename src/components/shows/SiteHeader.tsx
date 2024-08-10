@@ -21,9 +21,6 @@ function SiteHeader(props: ISiteHeaderProps) {
   const path = usePathname();
   const router = useRouter();
 
-  console.log(path);
-  
-
   const [isScrolled, setIsScrolled] = React.useState<boolean>(false);
 
   // change background color on scroll
@@ -42,6 +39,14 @@ function SiteHeader(props: ISiteHeaderProps) {
           'relative flex h-12 w-full items-center justify-between bg-gradient-to-b from-secondary/70 from-10% px-[4vw] transition-colors duration-300 md:sticky md:h-16',
           isScrolled ? 'bg-secondary shadow-md' : 'bg-transparent',
         )}
+        style={
+          isScrolled
+            ? {
+                backdropFilter: 'blur(12px)',
+                backgroundColor: 'rgb(0 0 0 / .5)',
+              }
+            : {}
+        }
       >
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center">

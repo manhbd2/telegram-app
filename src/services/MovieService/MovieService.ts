@@ -14,6 +14,7 @@ import type {
   CreditsResponse,
   KeyWordResponse,
   MediaType,
+  RecommendationResponse,
   SeasonDetail,
   Show,
   ShowWithGenreAndVideo,
@@ -37,6 +38,24 @@ class MovieService extends BaseService {
       `/${type}/${id}/credits?language=en-US`,
     );
   });
+
+  static getMovieRecommendation = cache(
+    (id: number, type: 'movie' | 'tv', page: number = 1) => {
+      return this.axios(baseUrl).get<RecommendationResponse>(
+        `/${type}/${id}/recommendations?language=en-US`,
+        { params: page },
+      );
+    },
+  );
+
+  static getTvSeriesRecommendation = cache(
+    (seriesId: number, page: number = 1) => {
+      return this.axios(baseUrl).get<RecommendationResponse>(
+        `tv/${seriesId}/recommendations?language=en-US`,
+        { params: page },
+      );
+    },
+  );
 
   static getSeason = cache(async (id: number, seasonNumber: number) => {
     const response: AxiosResponse<SeasonDetail> = await this.axios(
@@ -123,6 +142,15 @@ class MovieService extends BaseService {
       }
     }
     return shows;
+  });
+
+  static getShowTrending = cache(async (page: number = 1) => {
+    const response: AxiosResponse<TmdbPagingResponse> = await this.axios(
+      baseUrl,
+    ).get<TmdbPagingResponse>(
+      `/trending/all/day?language=en-US&with_original_language=en&page${page}`,
+    );
+    return response.data;
   });
 
   static searchMovies = cache(async (query: string, page?: number) => {

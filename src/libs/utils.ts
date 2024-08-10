@@ -11,3 +11,8 @@ export function getIdFromSlug(slug: string): number {
   const id: string | undefined = slug.split('-').pop();
   return id ? parseInt(id) : 0;
 }
+
+export function delay(ms: number) {
+  // eslint-disable-next-line no-promise-executor-return
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

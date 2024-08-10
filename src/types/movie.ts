@@ -161,6 +161,13 @@ export type KeyWordResponse = {
   results: KeyWord[];
 };
 
+export type RecommendationResponse = {
+  page: number;
+  keywords: Show[];
+  total_pages: number;
+  total_results: number;
+};
+
 export type MovieMetadata = {
   keywords: string[];
   data: Show | null;

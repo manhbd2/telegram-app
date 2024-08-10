@@ -36,7 +36,7 @@ function Header(props: IHeaderProps) {
                   >
                     <Button
                       aria-label="Play video"
-                      className="h-auto shrink-0 gap-2 rounded-sm px-9 py-2"
+                      className="h-auto shrink-0 gap-2 rounded-sm px-9 py-[6px]"
                     >
                       <Icons.Play
                         className="size-5 fill-current"
@@ -48,7 +48,7 @@ function Header(props: IHeaderProps) {
                   <Button
                     aria-label="Open show's details modal"
                     variant="outline"
-                    className="h-auto shrink-0 gap-2 rounded-sm px-9 py-2"
+                    className="h-auto shrink-0 gap-2 rounded-sm px-9 py-[6px]"
                   >
                     <Icons.Info aria-hidden="true" className="size-5" />
                     Info

@@ -34,7 +34,7 @@ function ShowCard(props: IShowCardProps) {
       <img
         src={getImageUrl(show)}
         alt={show.title ?? show.name ?? 'poster'}
-        className="size-full cursor-pointer rounded-lg px-1 transition-all md:hover:scale-110"
+        className="size-full cursor-pointer rounded-lg transition-all md:hover:scale-110"
         style={{
           objectFit: 'cover',
         }}

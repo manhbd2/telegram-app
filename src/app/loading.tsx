@@ -1,11 +1,13 @@
 import React from 'react';
 
-import MovieHomeLoading from '@/components/ui/MovieHomeLoading';
+import LoadingComponent from '@/components/ui/LoadingComponent';
 
 function Loading() {
-  console.log('main loading');
-
-  return <MovieHomeLoading />;
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <LoadingComponent />
+    </div>
+  );
 }
 
 export default Loading;
