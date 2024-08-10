@@ -16,3 +16,16 @@ export function delay(ms: number) {
   // eslint-disable-next-line no-promise-executor-return
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+let timer: NodeJS.Timeout;
+export function debounce(
+  func: (...args: (string | object)[]) => void,
+  timeout: number,
+): (...args: (string | object)[]) => void {
+  return (...args: (string | object)[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, timeout);
+  };
+}

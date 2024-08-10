@@ -17,7 +17,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log('root layout');
   return (
     <html lang="en">
       <Script src="https://telegram.org/js/telegram-web-app.js" />

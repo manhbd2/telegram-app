@@ -32,6 +32,7 @@ function ShowCard(props: IShowCardProps) {
   return (
     <picture className="relative aspect-[2/3]" onClick={handleClick}>
       <img
+        loading="lazy"
         src={getImageUrl(show)}
         alt={show.title ?? show.name ?? 'poster'}
         className="size-full cursor-pointer rounded-lg transition-all md:hover:scale-110"

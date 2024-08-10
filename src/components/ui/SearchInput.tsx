@@ -2,39 +2,24 @@ import React from 'react';
 
 import { Icons } from '../icons/icons';
 
-type IDebounceSearchProps = {
+type ISearchInputProps = {
   query: string;
   onChange: (inputValue: string) => void;
 };
 
-function DebounceSearch(props: IDebounceSearchProps) {
+function SearchInput(props: ISearchInputProps) {
   const { query, onChange } = props;
 
-  const [inputValue, setInputValue] = React.useState(query);
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    // Debounce function
-    let timer: NodeJS.Timeout;
-    const debounce = (func: Function, delay: number) => {
-      return (...args: any) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => func(...args), delay);
-      };
-    };
-
-    // Function to handle input change with debounce
-    const handleInputChange = debounce((value: string) => {
-      onChange(value); // You can perform your desired action here
-    }, 500); // Adjust the debounce delay as needed
-
-    handleInputChange(inputValue);
-
-    // Cleanup function
-    return () => clearTimeout(timer);
-  }, [inputValue, onChange]);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    onChange(e.target.value);
   };
 
   return (
@@ -45,7 +30,8 @@ function DebounceSearch(props: IDebounceSearchProps) {
         </div>
         <input
           type="search"
-          value={inputValue}
+          value={query}
+          ref={inputRef}
           id="default-search"
           autoComplete="off"
           onChange={handleChange}
@@ -57,4 +43,4 @@ function DebounceSearch(props: IDebounceSearchProps) {
   );
 }
 
-export default DebounceSearch;
+export default React.memo(SearchInput);

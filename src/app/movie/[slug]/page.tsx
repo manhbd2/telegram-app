@@ -10,7 +10,6 @@ type Props = {
 };
 
 export default async function MoviePage({ params }: Props) {
-  console.log('movie page');
   const id: number = getIdFromSlug(params.slug);
   const movie: ShowWithGenreAndVideo = await MovieService.findMovieByIdAndType(
     id,
