@@ -163,7 +163,7 @@ export type KeyWordResponse = {
 
 export type RecommendationResponse = {
   page: number;
-  keywords: Show[];
+  results: Show[];
   total_pages: number;
   total_results: number;
 };

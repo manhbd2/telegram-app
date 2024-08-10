@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-
-import Loading from './Loading';
+import LoadingComponent from './LoadingComponent';
 
 type IEmbedPlayerProps = {
   url: string;
@@ -46,7 +45,7 @@ function EmbedPlayer(props: IEmbedPlayerProps) {
         ref={loadingRef}
         className="absolute flex size-full items-center justify-center"
       >
-        <Loading />
+        <LoadingComponent />
       </div>
       <iframe
         ref={ref}

@@ -40,20 +40,14 @@ class MovieService extends BaseService {
   });
 
   static getMovieRecommendation = cache(
-    (id: number, type: 'movie' | 'tv', page: number = 1) => {
-      return this.axios(baseUrl).get<RecommendationResponse>(
+    async (id: number, type: MediaType, page: number = 1) => {
+      const response: AxiosResponse<RecommendationResponse> = await this.axios(
+        baseUrl,
+      ).get<RecommendationResponse>(
         `/${type}/${id}/recommendations?language=en-US`,
         { params: page },
       );
-    },
-  );
-
-  static getTvSeriesRecommendation = cache(
-    (seriesId: number, page: number = 1) => {
-      return this.axios(baseUrl).get<RecommendationResponse>(
-        `tv/${seriesId}/recommendations?language=en-US`,
-        { params: page },
-      );
+      return response.data;
     },
   );
 
