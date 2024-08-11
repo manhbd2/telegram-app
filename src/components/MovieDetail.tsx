@@ -75,12 +75,38 @@ function MovieDetail(props: IMovieDetailProps) {
 
   const [loading, setLoading] = React.useState<boolean>(false);
   const [playing, setPlaying] = React.useState<boolean>(false);
+  const [embedInViewport, setEmbedInViewport] = React.useState<boolean>(false);
   const [currentTab, setCurrentTab] = React.useState<string>(defaultTab);
   const [showMetadata, setShowMetadata] = React.useState<IShowMetadata>({
     seasonDetail: season,
     episode: season?.episodes?.[0],
     season: show?.seasons ? show.seasons[1] : null,
   });
+
+  const embedRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setEmbedInViewport(true);
+        } else {
+          setEmbedInViewport(false);
+        }
+      });
+    });
+
+    if (embedRef.current) {
+      observer.observe(embedRef.current);
+    }
+
+    return () => {
+      if (embedRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observer.unobserve(embedRef.current);
+      }
+    };
+  }, []);
 
   React.useEffect(() => {
     WebApp?.BackButton?.show();
@@ -121,6 +147,12 @@ function MovieDetail(props: IMovieDetailProps) {
       ...prevState,
       episode: _episode,
     }));
+    if (!embedInViewport) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
   };
 
   const handleGetEmbedPlayerUrl = React.useMemo((): string => {
@@ -136,7 +168,7 @@ function MovieDetail(props: IMovieDetailProps) {
 
   return (
     <div className="relative bg-[#1A1A1A]">
-      <div className="h-56 w-full">
+      <div className="h-56 w-full" ref={embedRef}>
         {!playing ? (
           <EmbedYoutube show={show} />
         ) : (
