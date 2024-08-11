@@ -85,8 +85,7 @@ function MovieDetail(props: IMovieDetailProps) {
   React.useEffect(() => {
     WebApp?.MainButton?.show();
     WebApp?.BackButton?.onClick(() => router.back());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [WebApp, router]);
 
   const handleLoadSeason = React.useCallback(
     async (id: number, seasonNumber: number) => {

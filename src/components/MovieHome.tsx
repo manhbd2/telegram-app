@@ -21,8 +21,7 @@ function MovieHome(props: IMovieHomeProps) {
 
   React.useEffect(() => {
     WebApp?.BackButton.hide();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [WebApp]);
 
   const userName: string = WebApp?.initDataUnsafe.user?.username || ' User';
 
