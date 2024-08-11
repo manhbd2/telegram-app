@@ -4,21 +4,23 @@
 
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { cn } from '@/libs/utils';
+import { MediaType } from '@/types/movie';
 
 import { Icons } from '../icons/icons';
 
 type ISiteHeaderProps = {
+  active: string;
   userName: string;
+  onChangeType: (type: MediaType) => void;
 };
 
 function SiteHeader(props: ISiteHeaderProps) {
-  const { userName } = props;
+  const { active, userName, onChangeType } = props;
 
-  const path = usePathname();
   const router = useRouter();
 
   const [isScrolled, setIsScrolled] = React.useState<boolean>(false);
@@ -54,18 +56,18 @@ function SiteHeader(props: ISiteHeaderProps) {
             <div
               className={cn(
                 'ml-2 items-center rounded-full border px-3 py-[3px] text-xs',
-                path === '/tv-show' && 'bg-secondary',
+                active === 'tv' && 'bg-secondary',
               )}
-              onClick={() => router.push('tv-show')}
+              onClick={() => onChangeType(MediaType.TV)}
             >
               Tv Shows
             </div>
             <div
               className={cn(
                 'ml-2 items-center rounded-full border px-3 py-[3px] text-xs',
-                path === '/movie' && 'bg-secondary',
+                active === 'movie' && 'bg-secondary',
               )}
-              onClick={() => router.push('movie')}
+              onClick={() => onChangeType(MediaType.MOVIE)}
             >
               Movie
             </div>

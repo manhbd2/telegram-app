@@ -1,23 +1,44 @@
 import MovieHome from '@/components/MovieHome';
 import { siteConfig } from '@/configs/site';
 import type { ShowRequest } from '@/enums/request-type';
-import { getRandomShow, getRequestShow } from '@/libs/movie';
+import {
+  getRandomShow,
+  getRequestMovie,
+  getRequestShow,
+  getRequestTvShow,
+} from '@/libs/movie';
 import MovieService from '@/services/MovieService';
-import type { CategorizedShows, Show } from '@/types/movie';
+import type { CategorizedShow, RandomShow } from '@/types/movie';
 
 export default async function Home() {
   const h1 = `${siteConfig.name} Home`;
   const requests: ShowRequest[] = getRequestShow();
+  const movieRequest: ShowRequest[] = getRequestMovie();
+  const tvShowRequest: ShowRequest[] = getRequestTvShow();
 
-  const categorizedShows: CategorizedShows[] =
-    await MovieService.getShows(requests);
+  const [categorizedShows, categorizedMovieShows, categorizedTvShows] =
+    await Promise.all([
+      MovieService.getShows(requests),
+      MovieService.getShows(movieRequest),
+      MovieService.getShows(tvShowRequest),
+    ]);
 
-  const randomShow: Show = getRandomShow(categorizedShows);
+  const categorizedShow: CategorizedShow = {
+    all: categorizedShows,
+    movie: categorizedMovieShows,
+    tv: categorizedTvShows,
+  };
+
+  const randomShow: RandomShow = {
+    all: getRandomShow(categorizedShows),
+    movie: getRandomShow(categorizedMovieShows),
+    tv: getRandomShow(categorizedTvShows),
+  };
 
   return (
     <main className="min-h-screen">
       <h1 className="hidden">{h1}</h1>
-      <MovieHome categorizedShows={categorizedShows} randomShow={randomShow} />
+      <MovieHome categorizedShow={categorizedShow} randomShow={randomShow} />
     </main>
   );
 }

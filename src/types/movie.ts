@@ -52,6 +52,18 @@ export type Season = {
   episode_count: number;
 };
 
+export type RandomShow = {
+  all: Show;
+  movie: Show;
+  tv: Show;
+};
+
+export type CategorizedShow = {
+  all: CategorizedShows[];
+  movie: CategorizedShows[];
+  tv: CategorizedShows[];
+};
+
 export type SeasonDetail = {
   _id: string;
   air_date: string;
