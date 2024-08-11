@@ -212,6 +212,11 @@ export const getPreviewImageUrl = (
   return `https://image.tmdb.org/t/p/original${path}`;
 };
 
+export const getBannerUrl = (show: Show): string => {
+  if (!show?.backdrop_path) return '/images/grey-thumbnail.jpg';
+  return `https://image.tmdb.org/t/p/original${show.backdrop_path}`;
+};
+
 export const getPreviewUrl = (episode: Episode): string => {
   if (!episode?.still_path) return '/images/grey-thumbnail.jpg';
   return `https://image.tmdb.org/t/p/original${episode.still_path}`;
@@ -246,7 +251,7 @@ export function getSlug(id: number, name: string): string {
 
 export const getDetailPath = (show: Show): string => {
   const slug: string = getSlug(show.id, getNameFromShow(show));
-  return `/${show.media_type === MediaType.MOVIE ? 'movie' : 'tv'}/${slug}`;
+  return `/${show.media_type === MediaType.MOVIE ? 'movie' : 'tv-show'}/${slug}`;
 };
 
 export const getYear = (input: string | number): number => {

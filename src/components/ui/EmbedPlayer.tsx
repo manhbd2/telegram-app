@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+
 import LoadingComponent from './LoadingComponent';
 
 type IEmbedPlayerProps = {
@@ -60,4 +61,4 @@ function EmbedPlayer(props: IEmbedPlayerProps) {
   );
 }
 
-export default EmbedPlayer;
+export default React.memo(EmbedPlayer);

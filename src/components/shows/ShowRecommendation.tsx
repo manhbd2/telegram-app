@@ -2,17 +2,18 @@
 import React from 'react';
 
 import MovieService from '@/services/MovieService';
-import type { RecommendationResponse, Show } from '@/types/movie';
+import type { MediaType, RecommendationResponse, Show } from '@/types/movie';
 
 import LoadingComponent from '../ui/LoadingComponent';
 import ShowCard from './ShowCard';
 
 type IShowRecommendationProps = {
   show: Show;
+  type: MediaType;
 };
 
 function ShowRecommendation(props: IShowRecommendationProps) {
-  const { show } = props;
+  const { show, type } = props;
 
   const [data, setData] = React.useState<Show[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -28,17 +29,17 @@ function ShowRecommendation(props: IShowRecommendationProps) {
 
   React.useEffect(() => {
     setLoading(true);
-    MovieService.getMovieRecommendation(show.id, show.media_type)
+    MovieService.getMovieRecommendation(show.id, type)
       .then((response: RecommendationResponse) => {
         handleResponseData(response);
       })
       .finally(() => setLoading(false));
-  }, [show, handleResponseData]);
+  }, [show, type, handleResponseData]);
 
   return (
-    <div>
+    <div className="py-3">
       {loading ? (
-        <div className="pt-8">
+        <div className="flex min-h-64 items-center justify-center pt-8">
           <LoadingComponent />
         </div>
       ) : data?.length ? (

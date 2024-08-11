@@ -41,11 +41,14 @@ class MovieService extends BaseService {
 
   static getMovieRecommendation = cache(
     async (id: number, type: MediaType, page: number = 1) => {
+      const params: Record<string, string> = {
+        page: page.toString(),
+      };
       const response: AxiosResponse<RecommendationResponse> = await this.axios(
         baseUrl,
       ).get<RecommendationResponse>(
         `/${type}/${id}/recommendations?language=en-US`,
-        { params: page },
+        { params },
       );
       return response.data;
     },
