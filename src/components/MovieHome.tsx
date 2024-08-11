@@ -20,7 +20,7 @@ function MovieHome(props: IMovieHomeProps) {
   const { WebApp } = useTelegram();
 
   React.useEffect(() => {
-    WebApp?.BackButton.hide();
+    WebApp?.BackButton?.hide();
   }, [WebApp]);
 
   const userName: string = WebApp?.initDataUnsafe.user?.username || ' User';

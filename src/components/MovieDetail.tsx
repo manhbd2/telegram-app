@@ -83,7 +83,7 @@ function MovieDetail(props: IMovieDetailProps) {
   });
 
   React.useEffect(() => {
-    WebApp?.MainButton?.show();
+    WebApp?.BackButton?.show();
     WebApp?.BackButton?.onClick(() => router.back());
   }, [WebApp, router]);
 
