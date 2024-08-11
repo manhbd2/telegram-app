@@ -59,7 +59,7 @@ function Header(props: IHeaderProps) {
             <div className="absolute inset-0 right-[12.09%] z-[8] bg-gradient-to-r from-secondary to-85%" />
             <div className="absolute inset-x-0 -bottom-px z-[8] h-[14.7vw] bg-gradient-to-b from-background/0 from-30% via-background/30 via-50% to-background to-80%" />
           </div>
-          <div className="relative inset-0 -z-50 mb-5 pb-[80%] sm:pb-[40%]" />
+          <div className="relative inset-0 -z-50 mb-5 pb-[70%] sm:pb-[40%]" />
         </>
       )}
     </section>

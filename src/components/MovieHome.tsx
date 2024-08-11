@@ -19,6 +19,11 @@ function MovieHome(props: IMovieHomeProps) {
 
   const { WebApp } = useTelegram();
 
+  React.useEffect(() => {
+    WebApp?.BackButton.hide();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const userName: string = WebApp?.initDataUnsafe.user?.username || ' User';
 
   return (

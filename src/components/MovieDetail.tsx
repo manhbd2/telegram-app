@@ -3,8 +3,10 @@
 
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
+import useTelegram from '@/hooks/useTelegram';
 import {
   getEmbedPlayerUrl,
   getNameFromShow,
@@ -65,6 +67,9 @@ const tabs: ITab[] = [
 function MovieDetail(props: IMovieDetailProps) {
   const { show, type, season } = props;
 
+  const router = useRouter();
+  const { WebApp } = useTelegram();
+
   const defaultTab: string =
     type === MediaType.MOVIE ? tabs[1].key : tabs[0].key;
 
@@ -76,6 +81,12 @@ function MovieDetail(props: IMovieDetailProps) {
     episode: season?.episodes?.[0],
     season: show?.seasons ? show.seasons[1] : null,
   });
+
+  React.useEffect(() => {
+    WebApp?.MainButton?.show();
+    WebApp?.BackButton?.onClick(() => router.back());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleLoadSeason = React.useCallback(
     async (id: number, seasonNumber: number) => {
@@ -93,18 +104,12 @@ function MovieDetail(props: IMovieDetailProps) {
     [],
   );
 
-  React.useEffect(() => {
-    if (showMetadata.season?.id === season?.id || !showMetadata.season) {
-      return;
-    }
-    handleLoadSeason(show.id, showMetadata.season.season_number);
-  }, [show, showMetadata.season, season, handleLoadSeason]);
-
   const handlePlay = (): void => {
     setPlaying(true);
   };
 
   const handleChangeSeason = (_season: Season): void => {
+    handleLoadSeason(show.id, _season.season_number);
     setShowMetadata((prevState: IShowMetadata) => ({
       ...prevState,
       season: _season,
@@ -129,8 +134,6 @@ function MovieDetail(props: IMovieDetailProps) {
     return getEmbedPlayerUrl(show.id, type, seasonNumber, episodeNumber);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, show?.id, showMetadata?.episode]);
-
-  console.log(handleGetEmbedPlayerUrl);
 
   return (
     <div className="relative bg-[#1A1A1A]">
