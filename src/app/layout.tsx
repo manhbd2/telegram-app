@@ -21,6 +21,21 @@ export default function RootLayout({
     <html lang="en">
       <Script src="https://telegram.org/js/telegram-web-app.js" />
       <body className={inter.className}>{children}</body>
+      <Script
+        id="_next-ga-init"
+        dangerouslySetInnerHTML={{
+          __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-V05509236P', { cookie_flags: 'max-age=86400;secure;samesite=none' });`,
+        }}
+      />
+      <Script
+        id="_next-ga"
+        src="https://www.googletagmanager.com/gtag/js?id=G-V05509236P"
+      />
     </html>
   );
 }
