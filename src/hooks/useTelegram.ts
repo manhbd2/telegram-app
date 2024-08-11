@@ -12,17 +12,25 @@ declare global {
 const useTelegram = (): ITelegram => {
   const [webApp, setWebApp] = React.useState<ITelegram>({ WebApp: null });
 
+  const handleDefault = (): void => {
+    if (!window.Telegram?.WebApp) {
+      return;
+    }
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    window.Telegram.WebApp?.disableVerticalSwipes();
+  };
+
   React.useEffect(() => {
     if (window.Telegram?.WebApp) {
+      handleDefault();
       setWebApp({ WebApp: window.Telegram?.WebApp });
       return;
     }
     const timer: NodeJS.Timeout = setInterval(() => {
       if (window.Telegram?.WebApp) {
+        handleDefault();
         clearInterval(timer);
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-        window.Telegram.WebApp?.disableVerticalSwipes();
         setWebApp({ WebApp: window.Telegram?.WebApp });
       }
     }, 10);
